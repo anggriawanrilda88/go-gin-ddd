@@ -1,0 +1,39 @@
+package usecases
+
+import (
+	"pos/domain/entity"
+	"pos/domain/repository"
+)
+
+type userApp struct {
+	us repository.UserRepository
+}
+
+type UserAppInterface interface {
+	SaveUser(*entity.User) (*entity.User, map[string]string)
+	GetUsers() ([]entity.User, error)
+	GetUser(uint64) (*entity.User, error)
+	GetUserByEmailAndPassword(*entity.User) (*entity.User, map[string]string)
+}
+
+func NewUsers(us repository.UserRepository) UserAppInterface {
+	return &userApp{
+		us: us,
+	}
+}
+
+func (u *userApp) SaveUser(user *entity.User) (*entity.User, map[string]string) {
+	return u.us.SaveUser(user)
+}
+
+func (u *userApp) GetUser(userId uint64) (*entity.User, error) {
+	return u.us.GetUser(userId)
+}
+
+func (u *userApp) GetUsers() ([]entity.User, error) {
+	return u.us.GetUsers()
+}
+
+func (u *userApp) GetUserByEmailAndPassword(user *entity.User) (*entity.User, map[string]string) {
+	return u.us.GetUserByEmailAndPassword(user)
+}
